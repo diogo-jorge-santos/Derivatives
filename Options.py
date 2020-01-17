@@ -12,24 +12,23 @@ def binomial_pricing(s0,T,sigma,r,c,n,k,european,call):
     k=strike price
     european=True if european option , False if american option
     call=True if call option, False if put option 
-
+    u = factor change of upstate
+    d = factor change of downstate
     """
-    #u = factor change of upstate
-    #d = factor change of downstate
     u=np.exp(sigma*((T/n)**0.5))
     d=1/u
     
-    #risk neutral probability
+    #risk neutral
     q=(np.exp((r-c)*T/n)-d)/(u-d)
     
-    #stock prices lattice
+    #prices lattice
     lattice=np.zeros((n+1,n+1))
     
     for i in range(n + 1):
         for j in range(i + 1):
             lattice[j, i] = s0*(u**(i - j))*(d**j)
     option=np.zeros((n+1,n+1))
-    #option prices using recursion
+    #option pricing
     if call==True:
         
         for i in range(n+1):
@@ -40,7 +39,7 @@ def binomial_pricing(s0,T,sigma,r,c,n,k,european,call):
                 for j in range(0,i+1):
                     option[j,i]=np.exp(-T*r/n)*(q*option[j,i+1]+(1-q)*option[j+1,i+1])
                     
-        #allowing to exercise the option in step<t if its optimal
+        #allowing exercising if it is american option
         if european==False:
             for i in range(n-1,-1,-1):
                 for j in range(0,i+1):
@@ -55,7 +54,7 @@ def binomial_pricing(s0,T,sigma,r,c,n,k,european,call):
                 for j in range(0,i+1):
                     option[j,i]=np.exp(-T*r/n)*(q*option[j,i+1]+(1-q)*option[j+1,i+1])
                     
-        #allowing to exercise the option in step<t if its optimal            
+        #allowing exercising if it is american option            
         if european==False:
             for i in range(t-1,-1,-1):
                 for j in range(0,i+1):
