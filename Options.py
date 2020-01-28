@@ -56,7 +56,7 @@ def binomial_pricing(s0,T,sigma,r,c,n,k,european,call):
                     
         #allowing exercising if it is american option            
         if european==False:
-            for i in range(t-1,-1,-1):
+            for i in range(n-1,-1,-1):
                 for j in range(0,i+1):
                     option[j,i]=max((np.exp(-T*r/n)*(q*option[j,i+1]+(1-q)*option[j+1,i+1])),max((k-lattice[j,i]),0))
     return (option[0,0])
