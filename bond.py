@@ -7,7 +7,6 @@ import scipy.optimize
     face=face value of the bond
     c=annual cupon rate
 
-    assumes that the spot rates are given yearly
     
     """
 a=np.array([3.00,3.04,3.07,3.09,3.10,3.10,2.84,2.77,2.70,2.63])
